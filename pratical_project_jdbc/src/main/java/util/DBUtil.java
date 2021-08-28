@@ -10,7 +10,7 @@ public class DBUtil {
     private static final String driverJDBC = "com.mysql.cj.jdbc.Driver";
     //  Database credentials
     private static final String userDB = "root";
-    private static final String passwordDB = "lehmapoiss";
+    private static final String passwordDB = "test";
 
     public static void createDatabase() {
         String dbUrl = "jdbc:mysql://localhost:3306/?serverTimezone=UTC";
