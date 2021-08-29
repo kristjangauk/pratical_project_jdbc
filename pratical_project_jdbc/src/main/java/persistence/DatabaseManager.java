@@ -26,10 +26,10 @@ public class DatabaseManager {
                 "project_id int,     " +
                 "admin_id int,     " +
                 "issue_status_id int,     " +
-                "FOREIGN KEY (user_id) REFERENCES user(user_id),     " +
-                "FOREIGN KEY (project_id) REFERENCES project(project_id),     " +
-                "FOREIGN KEY (admin_id) REFERENCES admin(admin_id),     " +
-                "FOREIGN KEY (issue_status_id) REFERENCES issue_status(issue_status_id)     )";
+                "FOREIGN KEY (user_id) REFERENCES user(user_id), " +
+                "FOREIGN KEY (project_id) REFERENCES project(project_id), " +
+                "FOREIGN KEY (admin_id) REFERENCES admin(admin_id), " +
+                "FOREIGN KEY (issue_status_id) REFERENCES issue_status(issue_status_id))";
 
         try {
              Statement stmt = connection.createStatement();
@@ -40,12 +40,14 @@ public class DatabaseManager {
         }
     }
 
+
+
     private void createTableProject() {
         String sql = "CREATE TABLE IF NOT EXISTS project (" +
                 "project_id int PRIMARY KEY AUTO_INCREMENT, " +
                 "project_name VARCHAR(100), " +
-                "admin_id int, " +
-                "FOREIGN KEY (admin_id) REFERENCES admin(admin_id)     )";
+                "admin_id int,   " +
+                "FOREIGN KEY (admin_id) REFERENCES admin(admin_id))";
 
         try {
             Statement stmt = connection.createStatement();
@@ -59,8 +61,8 @@ public class DatabaseManager {
     private void createTableAdmin() {
         String sql = "CREATE TABLE IF NOT EXISTS admin (  " +
                 "admin_id int PRIMARY KEY AUTO_INCREMENT,     " +
-                "user_id int,     " +
-                "CONSTRAINT user_id_fk FOREIGN KEY (user_id) REFERENCES user(user_id)     )";
+                "user_id int, " +
+                "FOREIGN KEY (user_id) REFERENCES user(user_id)    )";
 
         try {
             Statement stmt = connection.createStatement();
@@ -104,10 +106,10 @@ public class DatabaseManager {
 
     public void initTables() {
 
-        createTableProject();
-        createTableAdmin();
-        createTableUser();
         createTableIssueStatus();
+        createTableUser();
+        createTableAdmin();
+        createTableProject();
         createTableIssue();
     }
 }
