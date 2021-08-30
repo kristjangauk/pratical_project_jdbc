@@ -21,7 +21,8 @@ public class RepositoryAdmin {
     public List<Admin> listAllAdmins() {
 
         List<Admin> adminList = new ArrayList<>();
-        String sql = "SELECT admin.admin_id, user.user_id, user.first_name, user.last_name, user.phone, user.email FROM admin JOIN user ON admin.user_id = user.user_id";
+        String sql = "SELECT admin.admin_id, user.user_id, user.first_name, user.last_name, user.phone, user.email " +
+                "FROM admin JOIN user ON admin.user_id = user.user_id";
 
         try {
             PreparedStatement preparedStatement = DBUtil.getDBConnection().prepareStatement(sql);

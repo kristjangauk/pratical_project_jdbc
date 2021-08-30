@@ -21,9 +21,7 @@ public class MenuCustomer {
         System.out.println("-------------------------");
         System.out.println("1: List all issues");
         System.out.println("2: Create new issue");
-        System.out.println();
         System.out.println("3: List all admins");
-        System.out.println();
 //        System.out.println("4: List total active and not active customers");
 //        System.out.println("5: Update customers phone number by customer id");
         System.out.println("100 - Return to Main Menu");
@@ -100,7 +98,9 @@ public class MenuCustomer {
         String issueName = input.nextLine();
         System.out.println("Insert issue description:");
         String issueDescription = input.nextLine();
-        String sql = "INSERT INTO issue (user_id, date_entered, issue_name, issue_details, project_id, issue_status_id)  VALUES (1, now(), '" + issueName + "', '" + issueDescription + "', 1, 1)";
+        String sql =
+                "INSERT INTO issue (user_id, date_entered, issue_name, issue_details, project_id, issue_status_id)  " +
+                "VALUES (1, now(), '" + issueName + "', '" + issueDescription + "', 1, 1)";
 
         try {
             PreparedStatement pstmt = DBUtil.getDBConnection().prepareStatement(sql);
