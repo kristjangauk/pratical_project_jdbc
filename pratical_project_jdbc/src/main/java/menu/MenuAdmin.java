@@ -7,6 +7,7 @@ import persistence.RepositoryUser;
 import util.DBUtil;
 
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Scanner;
@@ -120,30 +121,64 @@ public class MenuAdmin {
     private void adminMenuClaimIssue(Scanner input) {
         System.out.println("Insert issue id:");
         int id = input.nextInt();
-        String sql = "UPDATE issue SET date_started = now(), admin_id = 1, issue_status_id = 2 WHERE issue_id = " + id;
 
+        String sql_validation = "SELECT issue_status_id FROM issue WHERE issue_id = " + id;
+        int issue_status_id = 0;
         try {
-            PreparedStatement pstmt = DBUtil.getDBConnection().prepareStatement(sql);
-            pstmt.executeUpdate();
+            PreparedStatement pstmt = DBUtil.getDBConnection().prepareStatement(sql_validation);
+            ResultSet resultSet = pstmt.executeQuery();
+            resultSet.next();
+            issue_status_id = resultSet.getInt("issue_status_id");
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        if (issue_status_id == 1) {
+            String sql = "UPDATE issue SET date_started = now(), admin_id = 1, issue_status_id = 2 WHERE issue_id = " + id;
+
+            try {
+                PreparedStatement pstmt = DBUtil.getDBConnection().prepareStatement(sql);
+                pstmt.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("Cannot claim issue number " + id);
+        }
+
     }
 
     private void adminMenuFinishIssue(Scanner input) {
         System.out.println("Insert issue id:");
         int id = input.nextInt();
-        System.out.println("Insert comment:");
-        input.nextLine();
-        String comment = input.nextLine();
-        String sql = "UPDATE issue SET date_finished = now(), comment = '" + comment +"', issue_status_id = 3 WHERE issue_id = " + id;
 
+        String sql_validation = "SELECT issue_status_id FROM issue WHERE issue_id = " + id;
+        int issue_status_id = 0;
         try {
-            PreparedStatement pstmt = DBUtil.getDBConnection().prepareStatement(sql);
-            pstmt.executeUpdate();
+            PreparedStatement pstmt = DBUtil.getDBConnection().prepareStatement(sql_validation);
+            ResultSet resultSet = pstmt.executeQuery();
+            resultSet.next();
+            issue_status_id = resultSet.getInt("issue_status_id");
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+        if (issue_status_id == 2) {
+            System.out.println("Insert comment:");
+            input.nextLine();
+            String comment = input.nextLine();
+            String sql = "UPDATE issue SET date_finished = now(), comment = '" + comment +"', issue_status_id = 3 WHERE issue_id = " + id;
+
+            try {
+                PreparedStatement pstmt = DBUtil.getDBConnection().prepareStatement(sql);
+                pstmt.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("Cannot finish issue number " + id);
+        }
+
     }
 
     private void menuListAllUsers(Scanner input) {
